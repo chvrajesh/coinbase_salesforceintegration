@@ -1,0 +1,17 @@
+public class AWSCallout {
+    
+    @future(callout = true) 
+    public static void callAWSApiGateway (String category, String description, String origin, String recordtype, String subject){
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://rzrj8rswlf.execute-api.us-west-2.amazonaws.com/coinbaseStage/savecase');  //AWS endpoint
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody('{"category": "'+category+'","description": "'+description+'","origin": "'+origin+'","recordtype": "'+recordtype+'","subject": "'+subject+'"}');
+        
+            HttpResponse response = http.send(request);
+            System.debug('responseStatusCode: '+response.getStatusCode());
+        System.debug('responseBody: '+response.getBody());
+    }
+
+}
