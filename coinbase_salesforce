@@ -1,0 +1,22 @@
+import json
+import boto3
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+	bucket ='coinbase-salesforce-case'
+
+	transactionToUpload = {}
+	transactionToUpload['category'] = event.get('category')
+	transactionToUpload['description'] = event.get('description')
+	transactionToUpload['origin'] = event.get('origin')
+	transactionToUpload['recordtype'] = event.get('recordtype')
+	transactionToUpload['subject'] = event.get('subject')
+
+	fileName = 'coinbase_salesforce' + '.json'
+
+	uploadByteStream = bytes(json.dumps(transactionToUpload).encode('UTF-8'))
+
+	s3.put_object(Bucket=bucket, Key=fileName, Body=uploadByteStream)
+
+	print('Put Complete')
