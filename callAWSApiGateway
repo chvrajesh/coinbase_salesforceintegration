@@ -1,0 +1,6 @@
+trigger callAWSApiGateway on Coinbase_Event__e (after Insert) {
+    for (Coinbase_Event__e event : Trigger.New) {
+        System.debug('Event trigger ' + event.Origin__c);
+        AWSCallout.callAWSApiGateway(event.category__c, event.description__c, event.Origin__c, event.RecordType__c, event.subject__c);
+    }
+ }
